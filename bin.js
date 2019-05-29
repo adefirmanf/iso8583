@@ -31,12 +31,12 @@ function hexToBinary(s) {
   }
   return ret;
 }
-function bitmapToHex() {
-  let _ = [2, 3, 4, 7, 11, 12, 13, 15, 18, 32, 37, 41, 48, 49, 63];
+function bitmapToHex(bitmap) {
   let binary = [];
   let temp_length = 0;
 
-  _.forEach((n, i) => {
+  bitmap.forEach((n, i) => {
+    console.log(i);
     let length = n - temp_length;
     binary = binary.concat(new Array(length - 1).fill(0).concat([1]));
     temp_length = n;
@@ -49,7 +49,8 @@ function bitmapToHex() {
   return bigNumber(binary.join(''), 2).toString(16);
   // __;
 }
-
+// let ____ = bitmapToHex([1, 7, 11, 70]);
+// console.log(____);
 function flagActiveBit(binary) {
   /**
    * Binary - 0100101011101
@@ -65,6 +66,8 @@ function flagActiveBit(binary) {
   });
   return bitValue;
 }
+
+// console.log(___);
 /**
  * Created by Ade Firman F - 2019
  * All rights reserved to Billfazz
@@ -73,10 +76,16 @@ class ISO8583 {
   constructor(opts) {
     this._opts = opts;
     this._msg = new Map([]);
+    this._value;
+    this._header = opts.header;
+    /**
+     * SET HEADER IF EXIST
+     */
   }
   init(params) {
     this._temp = new Map(params);
   }
+  static value(data) {}
   set(name, value) {
     if (this._temp.get(name)) {
       const { length, bitmap } = this._temp.get(name);
@@ -97,66 +106,142 @@ class ISO8583 {
          * Convert into string
          */
         .join('');
-      this._msg.set(name, { ...this._temp.get(name), value });
+
+      this._value = new Map([]);
+      this._value.set(name, { ...this._temp.get(name), value });
+      // console.log(this._value);
     }
   }
   get(name, value) {}
   wrapMsg(opts) {
     this._string = '';
-    let values = this._msg.forEach(n => {
+    let bitmap = [];
+    let total_length = 0;
+    let primary_m = 0;
+    let primary_s = 0;
+
+    this._msg.forEach(n => {
+      total_length = total_length + n.length;
       this._string = this._string.concat(n.value);
+      bitmap.push(n.bitmap);
     });
-    if (opts) {
-    }
-    // console.log(values.next().value);
-    // hexToBinary();
+    let hex = bitmapToHex(bitmap).substring(0, 16);
+    // console.log(this._string);
+    this._msg.set('PRIMARY_BITMAP', {
+      name: 'PRIMARY_BITMAP',
+      bitmap: false,
+      value: hex.substring(0, 16)
+    });
+    // if (length > 65) {
+    //   hex.concat();
+    // }
+
+    this._string = hex + this._string;
+    return this._string;
   }
 
   unpackMsg(hex, opts) {
     const { output = 'array', validate = false } = opts;
-    let _Bitmap = [];
-    let binary = hexToBinary('');
-    // binary;
-    // let binary = bigNumber('82200000020000000400000000000000', 16).toString(2);
-    binary;
-    // console.log(binary);
-    //0111001000111010010000000000000100001000100000011000000000000010
-    //0111001000111010010000000000000100001000100000011000000000000010
+
+    /**
+     * Set a type
+     */
+    this._type = hex.substring(
+      this._header.length,
+      parseInt(this._header.length + 4)
+    );
+    /**
+     * Substring the message based on header + (4 = Message type)
+     */
+    hex = hex.substring(parseInt(this._header.length + 4));
+    /**
+     * Storage for saving a bitmap
+     */
+    let _Bitmap = new Map([]);
+    /**
+     * Convert hexToBinary
+     */
+    let binary = hexToBinary(hex);
+    /**
+     * Splitting the binary with delimiter 1
+     */
     let arr = binary.split(1);
+    /**
+     *
+     */
     let temp = 0;
 
     arr.map((n, index) => {
       temp = Number(temp + n.length + 1);
-      _Bitmap.push([temp]);
+      _Bitmap.set(temp, '');
     });
-    console.log(_Bitmap);
-    if (output == 'map') {
-      _Bitmap = new Map([_Bitmap]);
-    }
+    _Bitmap;
+    // console.log(hex);
+
+    /**
+     * TODO :
+     *
+     * HEADER - DONE IN CONSTRUCTOR
+     * PRIMARY BITMAP
+     * MESSAGE TYPE - 4 Digit of element
+     *
+     */
+
+    /**
+     * Set as Primary Bitmap
+     */
+
+    _Bitmap.set('PRIMARY_BITMAP', hex.substring(0, 16));
+    _Bitmap.set('MESSAGE_TYPE', this._type);
+    // _Bitmap.set('TYPE', hex.substring());
+    hex = hex.substring(16, hex.length + 16);
+
+    let init = 0;
+    this._temp.forEach((n, key, index) => {
+      if (_Bitmap.has(n.bitmap)) {
+        _Bitmap.set(key, hex.substring(0, n.length));
+        hex = hex.substring(n.length);
+      }
+    });
+    _Bitmap;
+    // console.log(_Bitmap)
+    return _Bitmap;
   }
 }
 
 // let _ = '723A400108818002';
 // console.log(_.length);
-const XL = new ISO8583();
+const XL = new ISO8583({
+  header: 'ISO015000017'
+});
 
 XL.init([
-  ['PRIMARY_ACCOUNT', { bitmap: 2, length: 16 }],
-  ['PROCESSING_CODE', { bitmap: 3, length: 6 }],
-  ['TRANSACTION_AMOUNT', { bitmap: 4, length: 12 }]
+  ['SECONDARY_BITMAP', { bitmap: 1, length: 16 }],
+  ['TRANSMISSION_DATE', { bitmap: 7, length: 10 }],
+  ['SYSTEM_TRACE', { bitmap: 11, length: 6 }],
+  ['RESPONSE_CODE', { bitmap: 39, length: 2 }],
+  ['NETWORK_MANAGEMENT', { bitmap: 70, length: 3 }]
 ]);
 
-XL.set('PRIMARY_ACCOUNT', '160000000000002208');
-XL.set('PROCESSING_CODE', '573000');
-XL.set('TRANSACTION_AMOUNT', '10000');
+// XL.set('SECONDARY_BITMAP', '400000000000000');
+// XL.set('TRANSMISSION_DATE', '0325042644');
+// XL.set('SYSTEM_TRACE', '720957');
+// XL.set('NETWORK_MANAGEMENT', '301');
 
 // XL.set('CARDHOLDER_STATUS', '12');
 
 /**
  * Wrap message if there any set mmethods
  */
-XL.wrapMsg();
 
-XL.unpackMsg('', {
-  output: 'array'
-});
+// let XX = XL.wrapMsg();
+
+// XX;
+let unp = XL.unpackMsg(
+  'ISO0150000170800822000000000000004000000000000000325042644720957301',
+  {
+    output: 'array'
+  }
+);
+
+console.log(unp);
