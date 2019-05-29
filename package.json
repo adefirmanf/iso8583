@@ -1,7 +1,7 @@
 {
   "name": "iso8583",
   "version": "1.0.0",
-  "description": "",
+  "description": "ISO8583 messaging tools (Wrap message & UnWrap message)",
   "main": "index.js",
   "dependencies": {
     "bignumber.js": "^8.1.1",
@@ -15,10 +15,20 @@
     "type": "git",
     "url": "git+https://github.com/adefirmanf/iso8583.git"
   },
-  "author": "",
+  "author": "adefirmanf",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/adefirmanf/iso8583/issues"
   },
-  "homepage": "https://github.com/adefirmanf/iso8583#readme"
+  "homepage": "https://github.com/adefirmanf/iso8583#readme",
+  "directories": {
+    "example": "examples",
+    "test": "test"
+  },
+  "keywords": [
+    "iso8583",
+    "financial",
+    "transaction",
+    "iso"
+  ]
 }
