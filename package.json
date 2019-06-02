@@ -1,13 +1,15 @@
 {
-  "name": "iso8583",
+  "name": "iso8583-js",
   "version": "1.0.0",
   "description": "ISO8583 messaging tools (Wrap message & UnWrap message)",
   "main": "index.js",
   "dependencies": {
-    "bignumber.js": "^8.1.1",
-    "big.js": "^5.2.2"
+    "big.js": "^5.2.2",
+    "bignumber.js": "^8.1.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "all-contributors-cli": "^6.6.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
