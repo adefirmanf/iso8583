@@ -1,6 +1,6 @@
 {
   "name": "iso8583-js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "ISO8583 messaging tools (Wrap message & Unwrap message)",
   "main": "index.js",
   "dependencies": {
