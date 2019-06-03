@@ -136,6 +136,7 @@ console.log(X);
 - Attributes enhancement
 
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fadefirmanf%2Fiso8583.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fadefirmanf%2Fiso8583?ref=badge_shield)
 
 ## Contributors ✨
 
@@ -148,3 +149,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fadefirmanf%2Fiso8583.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fadefirmanf%2Fiso8583?ref=badge_large)
