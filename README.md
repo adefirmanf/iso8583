@@ -1,5 +1,8 @@
 # ISO8583 JS
 
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
+<a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fadefirmanf%2Fiso8583?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fadefirmanf%2Fiso8583.svg?type=shield"/></a>
+
 ISO 8583 is an international standard for financial transaction card originated interchange messaging. It is the International Organization for Standardization standard for systems that exchange electronic transactions initiated by cardholders using payment cards.
 
 This library help you for wrapping message into ISO8583 and parse the message
@@ -134,8 +137,7 @@ console.log(X);
 - Add options output as (Object or Map) in unWrap method
 - Add MTI meaning in wrap message
 - Attributes enhancement
-
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
+- Better documentation
 
 ## Contributors ✨
 
