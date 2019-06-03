@@ -58,7 +58,7 @@ const merchant = new ISO8583([options]);
 #### Options
 
 - `header` : Set the message header if exist
-- `mti` : The message type indicator is a four-digit numeric field which indicates the overall function of the message. Default : `true` . See the [usage]() 
+- `mti` : The message type indicator is a four-digit numeric field which indicates the overall function of the message. This option will read the incoming message of first four-digit as mti. Default : `true` . See the [usage]() 
 
 ### Init
 
@@ -84,14 +84,6 @@ merchant.init([
 ]);
 ```
 
-If you would to define type, set bitmap as `false`
-
-```js
-merchant.init([
-  ['TYPE', { bitmap: false, length: 4 }]
-]);
-```
-
 ### set
 
 Set the value by referencing to your key
@@ -105,8 +97,23 @@ merchant.set(key, value);
 Wrapping message into ISO8583
 
 ```js
-merchant.wrapMsg(); //string
+merchant.wrapMsg(mtiType); //string
 ```
+
+#### mtiType - optional
+
+
+You can set the value of MTI Type. For example : 
+
+```js
+/**
+ * - 0800 : Echo 
+ * For more, please refer to https://en.wikipedia.org/wiki/ISO_8583 
+*/
+merchant.wrapMsg(0800);
+
+```
+
 
 ### unWrapMsg
 
@@ -125,6 +132,8 @@ console.log(X);
 - Bitmap on init method should ordered by ascending
 - Checking set `key` when `key` not listed on init
 - Add options output as (Object or Map) in unWrap method
+- Add MTI meaning in wrap message
+- Attributes enhancement
 
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 
