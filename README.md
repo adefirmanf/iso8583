@@ -1,3 +1,9 @@
+# ISO8583 JS
+
+ISO 8583 is an international standard for financial transaction card originated interchange messaging. It is the International Organization for Standardization standard for systems that exchange electronic transactions initiated by cardholders using payment cards.
+
+This library help you for wrapping message into ISO8583 and parse the message
+
 ## Installation
 
 ```sh
@@ -11,7 +17,7 @@ npm install iso8583-js
 
 ## Usage
 
-For readable message, you should initialization the structure of ISO. Examples :
+Example :
 
 ```js
 let x = new ISO8583({
@@ -20,26 +26,105 @@ let x = new ISO8583({
 
 // Init the structure
 x.init([
-  ['SECONDARY_BITMAP', { bitmap: 1, length: 16 }],
-  ['TRANSMISSION_DATETIME', { bitmap: 7, length: 10 }],
-  ['SYSTEM_TRACE', { bitmap: 11, length: 6 }],
-  ['NETWORK_MANAGEMENT', { bitmap: 70, length: 3 }]
+  ['PRIMARY_ACCOUNT_NUMBER', { bitmap: 2, length: 18 }],
+  ['LOCAL_DATE', { bitmap: 13, length: 4 }]
 ]);
 
 // Set the value
-x.set('SECONDARY_BITMAP', '400000000000000');
-x.set('TRANSMISSION_DATETIME', '0325042644');
-x.set('SYSTEM_TRACE', '720957');
-x.set('NETWORK_MANAGEMENT', '301');
+x.set('PRIMARY_ACCOUNT_NUMBER', '366577921569117691');
+x.set('LOCAL_DATE', '112406');
 
 // Wrap the message
-console.log(X.wrapMsg());
+console.log(x.wrapMsg()); // -> 4008000000000000366577921569117691112406
+
+// Unwrap the message
+console.log(x.unWrapMsg('4008000000000000366577921569117691112406'));
+```
+
+## API Reference
+
+Initialize new ISO8583
+
+```js
+const ISO8583 = require('iso8583-js');
+```
+
+### Constructor
+
+```js
+const merchant = new ISO8583([options]);
+```
+
+#### Options
+
+- `header` : Set the message header if exist
+- `mti` : The message type indicator is a four-digit numeric field which indicates the overall function of the message. Default : `true` . See the [usage]() 
+
+### Init
+
+Initialization of ISO8583 structure.
+
+```js
+merchant.init([[key, options]]);
+```
+
+#### Options
+
+Currently, these options are mandatory
+
+- `bitmap` : Bitmap for referencing a key
+- `length` : Length of message
+
+#### Example
+
+```js
+merchant.init([
+  ['PRIMARY_ACCOUNT_NUMBER', { bitmap: 2, length: 18 }],
+  ['LOCAL_DATE', { bitmap: 13, length: 4 }]
+]);
+```
+
+If you would to define type, set bitmap as `false`
+
+```js
+merchant.init([
+  ['TYPE', { bitmap: false, length: 4 }]
+]);
+```
+
+### set
+
+Set the value by referencing to your key
+
+```js
+merchant.set(key, value);
+```
+
+### WrapMsg
+
+Wrapping message into ISO8583
+
+```js
+merchant.wrapMsg(); //string
+```
+
+### unWrapMsg
+
+Unwrapping the message and returning as Map structure
+
+```js
+let X = merchant.unWrapMsg(hex); //Map [[key, value]]
+X.get(key);
+
+console.log(X);
 ```
 
 ## To-Do (Currently not supported yet)
 
 - Initialization should being optional
-- Bitmap on init method should ordered asc
+- Bitmap on init method should ordered by ascending
+- Checking set `key` when `key` not listed on init
+- Add options output as (Object or Map) in unWrap method
 
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 
