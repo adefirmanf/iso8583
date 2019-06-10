@@ -9,11 +9,7 @@ describe("ISO8583 Unwrap message", ()=>{
   })
 
   X.init([
-    ['SECONDARY_BITMAP', {bitmap : 1, length : 16}],
-    ['PRIMARY_ACCOUNT_NUMBER', {bitmap : 2, length : 18}],
-    ['PROCESSING_CODE', {bitmap : 3, length : 6}],
-    ['TRANSACTION_AMOUNT', {bitmap : 4, length : 12}],
-    ['DATE_TIME', {bitmap : 7, length : 10}]
+    ['SECONDARY_BITMAP', {bitmap : 1, length : 16}]
   ])
 
   it("Should return valid bitmap", ()=>{

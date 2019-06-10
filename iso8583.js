@@ -2,11 +2,13 @@
  *
  * Created by Ade Firman F - 2019
  */
-const { bitmapToHex, flagActiveBit, hexToBinary } = require('./lib/index');
+const { bitmapToHex, flagActiveBit, hexToBinary, dataElements } = require('./lib/index');
 class ISO8583 {
   constructor(opts) {
     this._opts = opts;
     this._msg;
+    this._elements = dataElements
+    // this._temp = new Map(this._elements)
     this._value = new Map([]);
     if(opts) {
       const {header = '', mti = true} = opts
@@ -15,7 +17,13 @@ class ISO8583 {
     }
   }
   init(params) {
-    this._temp = new Map(params);
+    this._mapElements = new Map(this._elements)
+    let mapParams = new Map([...params])
+    mapParams.forEach((v, k)=>{
+      this._mapElements.set(k, v)
+    });
+
+    this._temp = new Map([...this._mapElements]);
   }
   static value(data) {}
   set(name, value) {
