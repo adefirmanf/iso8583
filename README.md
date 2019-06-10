@@ -138,6 +138,7 @@ console.log(X);
 - Checking set `key` when `key` not listed on init
 - Add options output as (Object or Map) in unWrap method
 - Add MTI meaning in wrap message
+- Optional to extends the data length. Example use case for bitmap 43, 48, etc
 - Attributes enhancement
 - Better documentation
 
