@@ -8,10 +8,6 @@ describe("ISO8583 Unwrap message", ()=>{
     mti : true
   })
 
-  X.init([
-    ['SECONDARY_BITMAP', {bitmap : 1, length : 16}]
-  ])
-
   it("Should return valid bitmap", ()=>{
     const UnWrapMsg = X.unWrapMsg('ISO0150000170800f20000000000000000000040000000001600009124781281245619990000000250000323163555')
     expect(UnWrapMsg.get(1)).to.equal('0000004000000000')

@@ -8,7 +8,7 @@ class ISO8583 {
     this._opts = opts;
     this._msg;
     this._elements = dataElements
-    // this._temp = new Map(this._elements)
+    this._temp = new Map([...this._elements])
     this._value = new Map([]);
     if(opts) {
       const {header = '', mti = true} = opts
@@ -17,13 +17,8 @@ class ISO8583 {
     }
   }
   init(params) {
-    this._mapElements = new Map(this._elements)
-    let mapParams = new Map([...params])
-    mapParams.forEach((v, k)=>{
-      this._mapElements.set(k, v)
-    });
-
-    this._temp = new Map([...this._mapElements]);
+    this._temp.clear()
+    this._temp = new Map(params);
   }
   static value(data) {}
   set(name, value) {
