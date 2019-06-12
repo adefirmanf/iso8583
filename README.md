@@ -64,8 +64,9 @@ const merchant = new ISO8583([options]);
 
 - `header` : Set the message header if exist
 - `mti` : The message type indicator is a four-digit numeric field which indicates the overall function of the message. This option will read the incoming message of first four-digit as mti. Default : `true` . See the [usage]() 
+- `elementName` : Set the value using `elementName`. Default: `false`
 
-### Init
+### Init (Optional)
 
 Initialization of ISO8583 structure.
 
@@ -133,11 +134,11 @@ console.log(X);
 
 ## To-Do (Currently not supported yet)
 
-- Initialization should being optional
+- ~~Initialization should being optional~~ [f17ab58](https://github.com/adefirmanf/iso8583/commit/f17ab587ecf83e015acf493390f9487396e931bc)
 - Bitmap on init method should ordered by ascending
 - Checking set `key` when `key` not listed on init
 - Add options output as (Object or Map) in unWrap method
-- Add MTI meaning in wrap message
+- ~~Add MTI meaning in wrap message~~ [a1bc50c](https://github.com/adefirmanf/iso8583/commit/a1bc50c7cd4ed93ba4e446cd8088d85d5ba4cdb8)
 - Optional to extends the data length. Example use case for bitmap 43, 48, etc
 - Attributes enhancement
 - Better documentation
