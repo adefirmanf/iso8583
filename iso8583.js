@@ -4,17 +4,29 @@
  */
 const { bitmapToHex, flagActiveBit, hexToBinary, dataElements } = require('./lib/index');
 class ISO8583 {
-  constructor(opts) {
-    this._opts = opts;
+  constructor(opts = {}) {
+    const {header = '', elementName = false, mti = true} = opts
+    /**
+     * Define variable
+     */
+    this._header = header
+    this._elementType = elementName
+    this._type = mti
+    /**
+     * Set a value
+     */
+    const Element = elementName ? dataElements.NAME : dataElements.BIT
+    this._temp = new Map([...Element])
+    
+    // this._opts = opts;
     this._msg;
-    this._elements = dataElements
-    this._temp = new Map([...this._elements])
+    // this._elements = dataElements
     this._value = new Map([]);
-    if(opts) {
-      const {header = '', mti = true} = opts
-      this._header = header;
-      this._type = mti
-    }
+    // if(opts) {
+    //   const {header = '', mti = true} = opts
+    //   this._header = header;
+    //   this._type = mti
+    // }
   }
   init(params) {
     this._temp.clear()
