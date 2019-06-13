@@ -34,28 +34,32 @@ class ISO8583 {
   }
   static value(data) {}
   set(name, value) {
-    if (this._temp.get(name)) {
-      const { length, bitmap } = this._temp.get(name);
-      /**
-       * Create 0..n value until meet condition length MAX
-       */
-      value = new Array(length)
-        .fill(0, 0, length)
-        /**
-         * When value is exist, slice an array with `value.length`
-         */
-        .slice(value.length)
-        /**
-         * Split a string and then concat into previous array
-         */
-        .concat(value.split(''))
-        /**
-         * Convert into string
-         */
-        .join('');
-
-      return this._value.set(name, { ...this._temp.get(name), value });
+    let f
+    if (!this._temp.get(name)){
+      f = new ReferenceError(`'${name}' is not defined in initialization.`)
+      throw f
     }
+    const { length, bitmap } = this._temp.get(name);
+    /**
+     * Create 0..n value until meet condition length MAX
+     */
+    value = new Array(length)
+      .fill(0, 0, length)
+      /**
+       * When value is exist, slice an array with `value.length`
+       */
+      .slice(value.length)
+      /**
+       * Split a string and then concat into previous array
+       */
+      .concat(value.split(''))
+      /**
+       * Convert into string
+       */
+      .join('');
+
+    f = this._value.set(name, { ...this._temp.get(name), value });
+    return f
   }
   get(name, value) {}
   wrapMsg(mti = '', opts) {
