@@ -136,7 +136,7 @@ console.log(X);
 
 - ~~Initialization should being optional~~ [f17ab58](https://github.com/adefirmanf/iso8583/commit/f17ab587ecf83e015acf493390f9487396e931bc)
 - Bitmap on init method should ordered by ascending
-- Checking set `key` when `key` not listed on init
+- ~~Checking set `key` when `key` not listed on init~~ [d8266ee](https://github.com/adefirmanf/iso8583/commit/d8266eed79a9ec13bae343b4f3a7b17c50583562)
 - Add options output as (Object or Map) in unWrap method
 - ~~Add MTI meaning in wrap message~~ [a1bc50c](https://github.com/adefirmanf/iso8583/commit/a1bc50c7cd4ed93ba4e446cd8088d85d5ba4cdb8)
 - Optional to extends the data length. Example use case for bitmap 43, 48, etc
