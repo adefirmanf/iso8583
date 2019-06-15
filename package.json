@@ -9,10 +9,12 @@
   "devDependencies": {
     "all-contributors-cli": "^6.6.1",
     "chai": "^4.2.0",
+    "goodparts": "^1.2.1",
     "mocha": "^6.1.4"
   },
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha"
+    "test": "./node_modules/mocha/bin/mocha",
+    "lint": "node_modules/.bin/goodparts path/to/files/for/linting"
   },
   "repository": {
     "type": "git",
