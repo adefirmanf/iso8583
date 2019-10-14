@@ -33,13 +33,20 @@ class ISO8583 {
     this._temp = new Map(params);
   }
   static value(data) {}
-  set(name, value) {
+  set(name, value, _opts = {}) {
     let f
     if (!this._temp.get(name)){
       f = new ReferenceError(`'${name}' is not defined in initialization.`)
       throw f
     }
-    const { length, bitmap } = this._temp.get(name);
+    let { length, bitmap } = this._temp.get(name);
+
+    // console.log(Object.keys(_opts).indexOf("length"))
+    if(Object.keys(_opts).indexOf("length") !== -1){
+      this._temp.set(name, {bitmap, length : _opts.length})
+      length = _opts.length
+    }
+    console.log(this._temp.get(name))
     /**
      * Create 0..n value until meet condition length MAX
      */
