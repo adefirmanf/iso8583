@@ -46,7 +46,6 @@ class ISO8583 {
       this._temp.set(name, {bitmap, length : _opts.length})
       length = _opts.length
     }
-    console.log(this._temp.get(name))
     /**
      * Create 0..n value until meet condition length MAX
      */
