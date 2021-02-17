@@ -100,13 +100,24 @@ class ISO8583 {
     let bitmap = [];
     let total_length = 0;
 
-    this._value.forEach(n => {
-      total_length = total_length + n.length;
-      this._string = this._string.concat(n.value);
-      bitmap.push(n.bitmap);
-    });
+    for (let [key, v] of this._value) {
+      if (v.length) {
+        total_length += v.length;
+        this._string = this._string.concat(v.value);        
+      } else {
+        let lenVariable = String(v.variableLength).length;
+        let size = String(v.value).length;
+        let value = Number(v.variableLength);
+        if (size > value) {
+          throw `The message size '${size}' is larger than the parameterized size '${v.variableLength}'`;
+        }        
+        total_length += size + lenVariable;
+        this._string = this._string.concat(((size < value) ? String(size).padStart(lenVariable, '0') : String(size)) + v.value);        
+      }
+      bitmap.push(v.bitmap);
+    }
 
-    let hex = bitmapToHex(bitmap).substring(0, 16);
+    let hex = (this._value.entries().next().value.map(x => x.bitmap)[1] > 4 ? '0' : '') + bitmapToHex(bitmap).substring(0, 16);
     let arr = new Array(16).fill(0, 0, 16);
     hex = hex
       .split('')
@@ -195,15 +206,27 @@ class ISO8583 {
 
     hex = hex.substring(16, hex.length + 16);
 
-    let init = 0;
-    this._temp.forEach((n, key, index) => {
-      if (_Bitmap.has(n.bitmap)) {
-        let v = hex.substring(0, n.length);
-        _Bitmap.set(n.bitmap, v);
+    for (let [key, value] of this._temp) {
+      if (_Bitmap.has(value.bitmap)) {
+        let v;
+        let size;
+        if (value.length) {
+          v = hex.substring(0, value.length);
+          size = value.length;
+        } else {          
+          let lenVariable = String(value.variableLength).length;
+          size = Number(hex.substring(0, lenVariable));
+          if (size > Number(value.variableLength)) {
+            throw `The message size '${size}' is larger than the parameterized size '${value.variableLength}'`;
+          }
+          v = hex.substring(lenVariable, size + lenVariable);
+          size += lenVariable;
+        }
+        _Bitmap.set(value.bitmap, v);
         _Bitmap.set(key, v);
-        hex = hex.substring(n.length);
+        hex = hex.substring(size);
       }
-    });
+    }
     return _Bitmap;
   }
 }
