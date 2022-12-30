@@ -10,7 +10,7 @@
     "all-contributors-cli": "^6.6.1",
     "chai": "^4.2.0",
     "goodparts": "^1.2.1",
-    "mocha": "^6.1.4"
+    "mocha": "^10.2.0"
   },
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha",
